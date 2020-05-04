@@ -1,0 +1,12 @@
+{
+    "name": "fapi-cz/fapi-wp-client-section",
+    "description": "FAPI client section plugin for WP.",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.1",
+        "fapi-cz/fapi-client": "^0.1.5",
+        "guzzlehttp/guzzle": "^6.5"
+    }
+}
