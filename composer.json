@@ -1,6 +1,6 @@
 {
-    "name": "fapi-cz/fapi-wp-client-section",
-    "description": "FAPI client section plugin for WP.",
+    "name": "fapi-cz/fapi-member-section",
+    "description": "FAPI member section plugin for WP.",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",

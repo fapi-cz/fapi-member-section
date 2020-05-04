@@ -1,15 +1,15 @@
-# fapi-wp-client-section
-FAPI client section plugin for WP.
+# FAPI member section
+FAPI member section plugin for WP.
 
 
 # WP API
-HTTP GET {domain}/fapi-wp-client-section.php?getSections
+HTTP GET {domain}/fapi-member-section.php
 
 HEADERS: \
 content-type: application/json \
 accept: application/json 
 
-returns object, where key is section ID and value is section name
+returns object, where key is member section ID and value is member section name
 ```json
 {
     "data": {
