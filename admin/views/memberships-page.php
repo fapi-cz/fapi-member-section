@@ -5,11 +5,6 @@ use Fapi\FapiClient\FapiClientFactory;
 use Fapi\FapiClient\Tools\SecurityChecker;
 
 $memberships = Fapi_Memberships::get_instance();
-$credentials = new Fapi_Credentials();
-
-//Save credentials if form is sent
-$credentials->save_credentials();
-
 if( !empty( $_POST['save'] ) ){
     if( !empty( $_POST['membership_name'] ) ){
         $data = $memberships->get_memberships();
@@ -25,19 +20,13 @@ if( !empty( $_POST['save'] ) ){
             'name' => sanitize_text_field( $_POST['membership_name'] ),
             'note' => sanitize_text_field( $_POST['membership_note'] ),
             'email' => sanitize_text_field( $_POST['membership_email'] ),
-            'redirect' => sanitize_text_field( $_POST['membership_redirect'] )
+            'redirect' => sanitize_text_field( $_POST['membership_redirect'] ),
+            'login_redirect' => sanitize_text_field( $_POST['membership_login_redirect'] )
         );
 
         update_option( 'fapi_memberships', serialize( $data ) );
     }
 }
-
-if( !empty( $_POST['registration-email-submit'] ) ){
-    if( !empty( $_POST['registration_email'] ) ){
-        update_option( 'fapi_membership_registration_email', sanitize_text_field( $_POST['registration_email'] ) );
-    }
-}
-
 
 
 if( !empty( $_GET['delete'] ) ){
@@ -63,7 +52,7 @@ $args = array(
     'numberposts' => -1
 );
 $emails = new WP_Query( $args );
-$registration_email = get_option( 'fapi_membership_registration_email' );
+
 ?>
 
 <div class="wrap">
@@ -84,12 +73,7 @@ $registration_email = get_option( 'fapi_membership_registration_email' );
 
     </div>
     <div class="clear"></div>
-    <?php
-        echo $credentials->check_connection()
-    ?>
-
-    <div class="clear"></div>
-
+    
     <div class="t-col-12">
         <div class="toret-box box-info">
             <div class="box-header">
@@ -103,6 +87,7 @@ $registration_email = get_option( 'fapi_membership_registration_email' );
                         <th><?php esc_attr_e( 'Note', 'fapi-membership' ); ?></th>
                         <th><?php esc_attr_e( 'Email', 'fapi-membership' ); ?></th>
                         <th><?php esc_attr_e( 'Redirect page', 'fapi-membership' ); ?></th>
+                        <th><?php esc_attr_e( 'Login redirect page', 'fapi-membership' ); ?></th>
                         <th></th>
                     </tr>
                     <tr>
@@ -121,6 +106,7 @@ $registration_email = get_option( 'fapi_membership_registration_email' );
                             </select>
                         </td>
                         <td><input type="text" name="membership_redirect" style="width:100%" /></td>
+                        <td><input type="text" name="membership_login_redirect" style="width:100%" /></td>
                         <td class="td_center"><input class="btn btn-success" type="submit" name="save" value="<?php esc_attr_e( 'Create', 'fapi-membership' ); ?>" /></td>
                     </tr>
                 </table>
@@ -133,78 +119,6 @@ $registration_email = get_option( 'fapi_membership_registration_email' );
     </div>
     <div class="clear"></div>
 
-    <div class="t-col-12">
-        <div class="toret-box box-info">
-            <div class="box-header">
-                <h3 class="box-title"><?php esc_attr_e( 'Credentials', 'fapi-membership' ); ?></h3>
-            </div>
-            <div class="box-body">
-                <form method="post" action="<?php echo admin_url().'admin.php?page=fapi-memebership'; ?>">
-                    <table class="table-bordered">
-                        <tr>
-                            <th><?php esc_attr_e( 'Username', 'fapi-membership' ); ?></th>
-                            <th><?php esc_attr_e( 'API key', 'fapi-membership' ); ?></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" name="fapi_username" style="width:100%" <?php if( !empty( $credentials->get_username() ) ){ echo 'value="'.$credentials->get_username().'"'; } ?> /></td>
-                            <td><input type="text" name="fapi_password" style="width:100%" <?php if( !empty( $credentials->get_password() ) ){ echo 'value="'.$credentials->get_password().'"'; } ?> /></td>
-                            <td class="td_center"><input class="btn btn-success" type="submit" name="credentials" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
-                        </tr>
-                    </table>
-                </form>
-                <table class="table-bordered">
-                        <tr>
-                            <th><?php esc_attr_e( 'Test connection', 'fapi-membership' ); ?></th>
-                            <td class="td_center"><?php echo '<a href="'.admin_url().'admin.php?page=fapi-memebership&check=connection" class="btn btn-danger">'.__( 'Test', 'fapi-membership' ).'</a>'; ?></td>
-                        </tr>
-                    </table>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-
-    </div>
-    <div class="clear"></div>
-
-    <div class="t-col-12">
-        <div class="toret-box box-info">
-            <div class="box-header">
-                <h3 class="box-title"><?php esc_attr_e( 'Registration email', 'fapi-membership' ); ?></h3>
-            </div>
-            <div class="box-body">
-                <form method="post" action="<?php echo admin_url().'admin.php?page=fapi-memebership'; ?>">
-                    <table class="table-bordered">
-                        <tr>
-                            <th><?php esc_attr_e( 'Select e-mail', 'fapi-membership' ); ?></th>
-                        
-                            <td>
-                            <select name="registration_email">
-                                <option value="---">---</option>
-                            <?php
-                            if( !empty( $emails->posts ) ){
-                                foreach( $emails->posts as $email ){
-                                    if( $registration_email == $email->ID ){
-                                        $selected = 'selected="selected"';
-                                    }else{
-                                        $selected = '';
-                                    }
-                                    echo '<option value="'.$email->ID.'" '.$selected.'>'.$email->post_title.'</option>';
-                                }
-                            }
-                            ?>
-                            </select>
-                        </td>
-                            <td class="td_center"><input class="btn btn-success" type="submit" name="registration-email-submit" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
-                        </tr>
-                    </table>
-                </form>                
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-
-    </div>
-    <div class="clear"></div>
+    
 
 </div>

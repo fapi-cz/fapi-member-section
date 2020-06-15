@@ -4,12 +4,36 @@ add_action( 'admin_menu', 'fapimembership_add_plugin_admin_menu' );
 function fapimembership_add_plugin_admin_menu(){
 
     add_menu_page(
-        __( 'Členské sekce', 'fapi-membership' ),
-        __( 'Členské sekce', 'fapi-membership' ),
+        __( 'Membership sections', 'fapi-membership' ),
+        __( 'Membership sections', 'fapi-membership' ),
         'manage_options',
         'fapi-memebership',
         'fapi_memebership_admin_page',
         'dashicons-text-page'
+    );
+    add_submenu_page(
+        'fapi-memebership',
+        __( 'Overview', 'fapi-membership' ),
+        __( 'Overview', 'fapi-membership' ),
+        'manage_options',
+        'fapi-memebership',
+        'fapi_memebership_admin_page'
+    );
+    add_submenu_page(
+        'fapi-memebership',
+        __( 'Registration', 'fapi-membership' ),
+        __( 'Registration', 'fapi-membership' ),
+        'manage_options',
+        'fapi-membership-registration',
+        'fapi_memebership_registration_page'
+    );
+    add_submenu_page(
+        'fapi-memebership',
+        __( 'Connection', 'fapi-membership' ),
+        __( 'Connection', 'fapi-membership' ),
+        'manage_options',
+        'fapi-membership-connection',
+        'fapi_memebership_connection_page'
     );
     add_submenu_page(
         'fapi-memebership',
@@ -22,8 +46,22 @@ function fapimembership_add_plugin_admin_menu(){
 
 }
 
+
 function fapi_memebership_admin_page(){
-    include( 'views/memberships-page.php' );
+    if( !empty( $_GET['edit'] ) ){
+        include( 'views/memberships-page-edit.php' );
+    }else{
+        include( 'views/memberships-page.php' );
+    }
+}
+function fapi_memebership_registration_page(){
+    include( 'views/memberships-registration-page.php' );
+}
+function fapi_memebership_emails(){
+    include( 'views/memberships-emails-page.php' );
+}
+function fapi_memebership_connection_page(){
+    include( 'views/memberships-credentials-page.php' );
 }
 function fapi_memebership_log_page(){
     include( 'views/memberships-log.php' );
@@ -149,5 +187,10 @@ function save_membership_userprofile_fields( $user_id ) {
 
 
 }
-    
+ 
+
+add_action('admin_init', 'fapi_membership_output_buffer' );
+function fapi_membership_output_buffer() {
+    ob_start();
+}
     

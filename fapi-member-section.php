@@ -8,7 +8,7 @@ use Fapi\FapiClient\Tools\SecurityChecker;
  * Plugin Name:       Fapi member section
  * Plugin URI:        https:/fapi.cz
  * Description:       Fapi membership
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Fapi
  * Author URI:        https://fapi.cz
  * Text Domain:       fapi-member-section
@@ -284,7 +284,7 @@ add_action( 'template_redirect', function() {
             if( empty( $membership['redirect'] ) ){
                 $redirect = get_home_url();
             }else{
-                $redirect = get_the_permalink( $membership['redirect'] );
+                $redirect = $membership['redirect'];
             }
 
             if ( !is_user_logged_in() ){
@@ -307,3 +307,38 @@ add_action( 'template_redirect', function() {
     
   
   });
+
+/**
+ * Login redirect
+ * 
+ */
+  add_filter('login_redirect', 'membership_login_redirect', 10, 3 );
+  function membership_login_redirect( $url, $request, $user ){
+    
+    $memberships = Fapi_Memberships::get_instance();
+    $data = $memberships->get_memberships();
+    foreach( $data as $id => $membership ){
+        $user_item = get_user_meta( $user->ID, 'membership_'.$id, true );
+        if( !empty( $user_item ) && !empty( $membership['login_redirect'] ) ){ return $membership['login_redirect']; }
+    }
+    
+    return $url;
+}
+
+/**
+ * Load textdomain
+ * 
+ */
+add_action( 'init', 'memebership_load_plugin_textdomain' );
+function memebership_load_plugin_textdomain() {
+
+    $domain = 'fapi-membership';
+    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+		$load = load_textdomain( $domain, WP_LANG_DIR . '/fapi-membership-section/' . $domain . '-' . $locale . '.mo' );
+
+		if( $load === false ){
+			load_textdomain( $domain, FMDIR . 'languages/' . $domain . '-' . $locale . '.mo' );
+		}
+
+}

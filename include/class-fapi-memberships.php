@@ -89,7 +89,7 @@ class Fapi_Memberships {
         if( $memberships != false ){ 
 			//Render table
 			echo '<table class="table-bordered">';
-			echo '<tr><th>'.__( 'Membership name', 'fapi-membership' ).'</th><th>'.__( 'Membership id', 'fapi-membership' ).'</th><th>'.__( 'Membership description', 'fapi-membership' ).'</th><th>'.__( 'Email', 'fapi-membership' ).'</th><th>'.__( 'Redirect page', 'fapi-membership' ).'</th><th>'.__( 'Remove', 'fapi-membership' ).'</th></tr>';
+			echo '<tr><th>'.__( 'Membership name', 'fapi-membership' ).'</th><th>'.__( 'Membership id', 'fapi-membership' ).'</th><th>'.__( 'Membership description', 'fapi-membership' ).'</th><th>'.__( 'Email', 'fapi-membership' ).'</th><th>'.__( 'Redirect page', 'fapi-membership' ).'</th><th>'.__( 'Login redirect page', 'fapi-membership' ).'</th><th>'.__( 'Remove', 'fapi-membership' ).'</th><th></th></tr>';
 			foreach( $memberships as $id => $membership ){
 				if( empty( $membership['name'] ) ){ continue; }
 				echo '<tr>';
@@ -98,7 +98,9 @@ class Fapi_Memberships {
 					echo '<td>'.$this->get_field_value( $membership, 'note' ).'</td>';
 					echo '<td>'.get_the_title( $this->get_field_value( $membership, 'email' ) ).'</td>';
 					echo '<td>'.$this->get_field_value( $membership, 'redirect' ).'</td>';
+					echo '<td>'.$this->get_field_value( $membership, 'login_redirect' ).'</td>';
 					echo '<td class="td_center"><a href="'.admin_url().'admin.php?page=fapi-memebership&delete='.$id.'" class="btn btn-danger">'.__( 'Remove', 'fapi-membership' ).'</a></td>';
+					echo '<td class="td_center"><a href="'.admin_url().'admin.php?page=fapi-memebership&edit='.$id.'" class="btn btn-success">'.__( 'Edit', 'fapi-membership' ).'</a></td>';
 				echo '</tr>';
 			}
 			echo '</table>';

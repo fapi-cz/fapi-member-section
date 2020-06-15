@@ -36,14 +36,24 @@ class Fapi_Credentials {
 	 */
 	public function __construct() {
 
-        $option = maybe_unserialize( get_option( 'fapi_memberships_credentials' ) );
+        $this->set_credentials();
+	
+	}
+
+	/**
+	 * Set credentials
+	 *
+	 * @since    1.0.0
+	 *
+	 */
+	public function set_credentials() {
+		$option = maybe_unserialize( get_option( 'fapi_memberships_credentials' ) );
         if( !empty( $option['username'] ) ){
             $this->username = $option['username'];
         }
         if( !empty( $option['password'] ) ){
             $this->password = $option['password'];
         }
-	
 	}
 
 	/**
@@ -107,11 +117,11 @@ class Fapi_Credentials {
                 $option['password'] = sanitize_text_field( $_POST['fapi_password'] ); 
             }
             if(!empty( $option ) ){
-                update_option( 'fapi_memberships_credentials', $option );
+				update_option( 'fapi_memberships_credentials', $option );
             }else{
                 delete_option( 'fapi_memberships_credentials' );
             }
-        }
+		}		
 	}
 
 	/**

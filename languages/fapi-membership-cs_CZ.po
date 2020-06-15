@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Canvas v5.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-30 17:01+0200\n"
-"PO-Revision-Date: 2017-05-30 17:24+0200\n"
+"POT-Creation-Date: 2020-06-15 12:14+0200\n"
+"PO-Revision-Date: 2020-06-15 12:14+0200\n"
 "Last-Translator: admin <magnus@jepson.no>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -19,58 +19,233 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: toret-ask-product.php:58 toret-ask-product.php:105 toret-ask-product.php:186
-#: toret-ask-product.php:194
-msgid "Ask for Product"
-msgstr "Produkt na dotaz"
+#: admin/admin-handler.php:7 admin/admin-handler.php:8
+msgid "Membership sections"
+msgstr ""
 
-#: toret-ask-product.php:61
-msgid "Name:"
-msgstr "Jméno:"
+#: admin/admin-handler.php:16 admin/admin-handler.php:17
+msgid "Overview"
+msgstr ""
 
-#: toret-ask-product.php:62
-msgid "Name"
-msgstr "Jméno"
+#: admin/admin-handler.php:24 admin/admin-handler.php:25
+msgid "Registration"
+msgstr ""
 
-#: toret-ask-product.php:65
-msgid "Surname:"
-msgstr "Příjmení:"
+#: admin/admin-handler.php:32 admin/admin-handler.php:33
+msgid "Connection"
+msgstr ""
 
-#: toret-ask-product.php:66
-msgid "Surname"
-msgstr "Příjmení"
+#: admin/admin-handler.php:40 admin/admin-handler.php:41
+msgid "Log"
+msgstr ""
 
-#: toret-ask-product.php:69
-msgid "Phone:"
-msgstr "Telefon:"
+#: admin/admin-handler.php:84 admin/admin-handler.php:142
+msgid "Memberships sections"
+msgstr ""
 
-#: toret-ask-product.php:70
-msgid "Phone"
-msgstr "Telefon"
+#: admin/views/memberships-log.php:21
+msgid "Záznamy"
+msgstr ""
 
-#: toret-ask-product.php:73
-msgid "Email:"
-msgstr "Email:"
+#: admin/views/memberships-log.php:23
+msgid "Smazat log"
+msgstr ""
 
-#: toret-ask-product.php:74
+#: fapi-member-section.php:218
+msgctxt "Post Type General Name"
+msgid "Emails"
+msgstr ""
+
+#: fapi-member-section.php:219
+msgctxt "Post Type Singular Name"
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
-#: toret-ask-product.php:77
-msgid "Send"
-msgstr "Odeslat"
+#: fapi-member-section.php:220
+msgid "Emails"
+msgstr ""
 
-#: toret-ask-product.php:144
-msgid "Thank you. We will answer you as soon is possible."
-msgstr "Děkujeme. Na váš dotaz zareagujeme tak rychle, jak to bude možné."
+#: fapi-member-section.php:221 fapi-member-section.php:247
+#: include/class-fapi-memberships.php:92
+msgid "Email"
+msgstr ""
 
-#: toret-ask-product.php:179
-msgid "Ask"
-msgstr "Dotázat se"
+#: fapi-member-section.php:222
+msgid "Emails Archives"
+msgstr ""
 
-#: toret-ask-product.php:250
-msgid "Please enter correct email!"
-msgstr "Prosím, vložte platný email!"
+#: fapi-member-section.php:223
+msgid "Email Attributes"
+msgstr ""
+
+#: fapi-member-section.php:224
+msgid "Parent Email:"
+msgstr ""
+
+#: fapi-member-section.php:225
+msgid "All Emails"
+msgstr ""
+
+#: fapi-member-section.php:226
+msgid "Add New Email"
+msgstr ""
+
+#: fapi-member-section.php:227
+msgid "Add New"
+msgstr ""
+
+#: fapi-member-section.php:228
+msgid "New Email"
+msgstr ""
+
+#: fapi-member-section.php:229
+msgid "Edit Email"
+msgstr ""
+
+#: fapi-member-section.php:230
+msgid "Update Email"
+msgstr ""
+
+#: fapi-member-section.php:231
+msgid "View Email"
+msgstr ""
+
+#: fapi-member-section.php:232
+msgid "View Emails"
+msgstr ""
+
+#: fapi-member-section.php:233
+msgid "Search Email"
+msgstr ""
+
+#: fapi-member-section.php:234
+msgid "Not found"
+msgstr ""
+
+#: fapi-member-section.php:235
+msgid "Not found in Trash"
+msgstr ""
+
+#: fapi-member-section.php:236
+msgid "Featured Image"
+msgstr ""
+
+#: fapi-member-section.php:237
+msgid "Set featured image"
+msgstr ""
+
+#: fapi-member-section.php:238
+msgid "Remove featured image"
+msgstr ""
+
+#: fapi-member-section.php:239
+msgid "Use as featured image"
+msgstr ""
+
+#: fapi-member-section.php:240
+msgid "Insert into item"
+msgstr ""
+
+#: fapi-member-section.php:241
+msgid "Uploaded to this item"
+msgstr ""
+
+#: fapi-member-section.php:242
+msgid "Items list"
+msgstr ""
+
+#: fapi-member-section.php:243
+msgid "Items list navigation"
+msgstr ""
+
+#: fapi-member-section.php:244
+msgid "Filter items list"
+msgstr ""
+
+#: include/class-fapi-memberships-log.php:123
+msgid "Nenalezeny žádné záznamy"
+msgstr ""
+
+#: include/class-fapi-memberships-log.php:154
+msgid "Datum"
+msgstr ""
+
+#: include/class-fapi-memberships-log.php:155
+msgid "Kontext"
+msgstr ""
+
+#: include/class-fapi-memberships-log.php:156
+msgid "DATA"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92
+msgid "Membership name"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92
+msgid "Membership id"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92
+msgid "Membership description"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92
+msgid "Redirect page"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92
+msgid "Login redirect page"
+msgstr ""
+
+#: include/class-fapi-memberships.php:92 include/class-fapi-memberships.php:102
+msgid "Remove"
+msgstr ""
+
+#: include/class-fapi-memberships.php:103
+msgid "Edit"
+msgstr ""
+
+#: include/class-fapi-memberships.php:108
+msgid "You dont have any memebership yet."
+msgstr ""
+
+#: include/class-fapi-user.php:84
+msgid "Thank you for registration"
+msgstr ""
+
+#~ msgid "Ask for Product"
+#~ msgstr "Produkt na dotaz"
+
+#~ msgid "Name:"
+#~ msgstr "Jméno:"
+
+#~ msgid "Name"
+#~ msgstr "Jméno"
+
+#~ msgid "Surname:"
+#~ msgstr "Příjmení:"
+
+#~ msgid "Surname"
+#~ msgstr "Příjmení"
+
+#~ msgid "Phone:"
+#~ msgstr "Telefon:"
+
+#~ msgid "Phone"
+#~ msgstr "Telefon"
+
+#~ msgid "Send"
+#~ msgstr "Odeslat"
+
+#~ msgid "Thank you. We will answer you as soon is possible."
+#~ msgstr "Děkujeme. Na váš dotaz zareagujeme tak rychle, jak to bude možné."
+
+#~ msgid "Ask"
+#~ msgstr "Dotázat se"
+
+#~ msgid "Please enter correct email!"
+#~ msgstr "Prosím, vložte platný email!"
 
 #~ msgid "Checkout Process"
 #~ msgstr "Pokladna"
