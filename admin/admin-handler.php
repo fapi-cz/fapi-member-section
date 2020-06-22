@@ -9,7 +9,8 @@ function fapimembership_add_plugin_admin_menu(){
         'manage_options',
         'fapi-memebership',
         'fapi_memebership_admin_page',
-        'dashicons-text-page'
+        'dashicons-text-page',
+        82
     );
     add_submenu_page(
         'fapi-memebership',

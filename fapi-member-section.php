@@ -8,7 +8,7 @@ use Fapi\FapiClient\Tools\SecurityChecker;
  * Plugin Name:       Fapi member section
  * Plugin URI:        https:/fapi.cz
  * Description:       Fapi membership
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            Fapi
  * Author URI:        https://fapi.cz
  * Text Domain:       fapi-member-section
@@ -251,7 +251,7 @@ function fapi_membership_cpt() {
 		'public'                => false,
 		'show_ui'               => true,
 		'show_in_menu'          => true,
-		'menu_position'         => 5,
+		'menu_position'         => 81,
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => false,
 		'can_export'            => true,

@@ -20,7 +20,7 @@ $credentials->set_credentials();
                 <h3 class="box-title"><?php esc_attr_e( 'Credentials', 'fapi-membership' ); ?></h3>
             </div>
             <div class="box-body">
-                <form method="post" action="<?php echo admin_url().'admin.php?page=fapi-membership-credentials'; ?>">
+                <form method="post" action="">
                     <table class="table-bordered">
                         <tr>
                             <th><?php esc_attr_e( 'Username', 'fapi-membership' ); ?></th>
