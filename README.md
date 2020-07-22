@@ -23,6 +23,6 @@ returns object, where key is member section ID and value is member section name
 # DEV tools
 ## Code style
 ### Check codestyle: 
-`wpcs/vendor/bin/phpcs --standard=WordPress ./fapi-member-section.php ./index.php ./uninstall.php ./include/ ./admin/`
+`bin/cs`
 ### Fix codestyle: 
-`wpcs/vendor/bin/phpcbf --standard=WordPress ./fapi-member-section.php ./index.php ./uninstall.php ./include/ ./admin/`
+`bin/cbf`

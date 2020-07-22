@@ -108,7 +108,7 @@ function fapi_membership_json_template_redirect() {
 
 		// Check is invoice paid
 		$credentials = new Fapi_Credentials();
-		$fapi_client  = ( new FapiClientFactory() )->createFapiClient( $credentials->get_username(), $credentials->get_password() );
+		$fapi_client = ( new FapiClientFactory() )->createFapiClient( $credentials->get_username(), $credentials->get_password() );
 		$invoice     = $fapi_client->getInvoices()->find( (int) $invoice_id );
 
 		if ( ! empty( $invoice ) ) {
