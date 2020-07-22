@@ -100,11 +100,9 @@ class Fapi_Memberships_Log {
 
 			return $logs;
 
-		} else {
-
-			return false;
-
 		}
+
+		return false;
 
 	}
 

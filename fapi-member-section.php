@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 
 use Fapi\FapiClient\FapiClientFactory;
-use Fapi\FapiClient\Tools\SecurityChecker;
 
 /**
  * Plugin Name:       Fapi member section
@@ -127,26 +126,22 @@ function fapi_membership_json_template_redirect() {
 				$memberships->send_section_welcome_email( $_user, $section_id );
 				exit();
 
-			} else {
-
-				$data = array(
-					'context' => 'Faktura není uhrazena ',
-					'log'     => serialize( $_POST ),
-				);
-				fapi_memebership_save_log( $data );
-				exit();
-
 			}
-		} else {
 
 			$data = array(
-				'context' => 'Chyba získání faktury',
+				'context' => 'Faktura není uhrazena ',
 				'log'     => serialize( $_POST ),
 			);
-			fapi_memebership_save_log( $data );
+			fapi_memebership_save_log($data );
 			exit();
-
 		}
+
+		$data = array(
+			'context' => 'Chyba získání faktury',
+			'log'     => serialize( $_POST ),
+		);
+		fapi_memebership_save_log($data );
+		exit();
 	}
 
 	exit();
@@ -291,15 +286,14 @@ add_action(
 				if ( ! is_user_logged_in() ) {
 					wp_redirect( $redirect );
 					exit();
-				} else {
+				}
 
-					$user_id   = get_current_user_id();
-					$user_item = get_user_meta( $user_id, 'membership_' . $id, true );
+				$user_id   = get_current_user_id();
+				$user_item = get_user_meta($user_id, 'membership_' . $id, true );
 
-					if ( empty( $user_item ) ) {
-						wp_redirect( $redirect );
-						exit();
-					}
+				if ( empty( $user_item ) ) {
+					wp_redirect( $redirect );
+					exit();
 				}
 			}
 		}

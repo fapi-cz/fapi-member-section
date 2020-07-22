@@ -115,13 +115,13 @@ class Fapi_Memberships {
 	private function get_field_value( $field, $key, $type = 'string' ) {
 		if ( ! empty( $field[ $key ] ) ) {
 			return $field[ $key ];
-		} else {
-			if ( $type == 'string' ) {
-				return '';
-			} else {
-				return false;
-			}
 		}
+
+		if ( $type == 'string' ) {
+			return '';
+		}
+
+		return false;
 	}
 
 	/**
