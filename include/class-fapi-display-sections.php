@@ -46,7 +46,9 @@ class Fapi_Display_Sections {
 	 * @return    Plugin slug variable.
 	 */
 	private function get_plugin_slug() {
+
 		return $this->plugin_slug;
+
 	}
 
 	/**
@@ -57,7 +59,9 @@ class Fapi_Display_Sections {
 	 * @return  array
 	 */
 	public function get_sections() {
+
 		return $this->sections;
+
 	}
 
 }//end class

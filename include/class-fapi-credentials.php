@@ -47,13 +47,17 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @since    1.0.0
 		 */
 		public function set_credentials() {
+
 			$option = maybe_unserialize( get_option( 'fapi_memberships_credentials' ) );
+
 			if ( ! empty( $option['username'] ) ) {
 				$this->username = $option['username'];
 			}
+
 			if ( ! empty( $option['password'] ) ) {
 				$this->password = $option['password'];
 			}
+
 		}
 
 		/**
@@ -64,7 +68,9 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @return    string
 		 */
 		public function get_username() {
+
 			return $this->username;
+
 		}
 
 		/**
@@ -75,7 +81,9 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @return    string
 		 */
 		public function get_password() {
+
 			return $this->password;
+
 		}
 
 		/**
@@ -86,7 +94,9 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @return    string
 		 */
 		public function set_username( $username ) {
+
 			$this->username = $username;
+
 		}
 
 		/**
@@ -97,7 +107,9 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @return    string
 		 */
 		public function set_password( $password ) {
+
 			$this->password = $password;
+
 		}
 
 		/**
@@ -108,20 +120,25 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 * @return    string
 		 */
 		public function save_credentials() {
+
 			if ( ! empty( $_POST['credentials'] ) ) {
 				$option = array();
+
 				if ( ! empty( $_POST['fapi_username'] ) ) {
 					$option['username'] = sanitize_text_field( $_POST['fapi_username'] );
 				}
+
 				if ( ! empty( $_POST['fapi_password'] ) ) {
 					$option['password'] = sanitize_text_field( $_POST['fapi_password'] );
 				}
+
 				if ( ! empty( $option ) ) {
 					update_option( 'fapi_memberships_credentials', $option );
 				} else {
 					delete_option( 'fapi_memberships_credentials' );
 				}
 			}
+
 		}
 
 		/**

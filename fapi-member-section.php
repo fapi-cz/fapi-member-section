@@ -36,32 +36,36 @@ require_once 'include/class-fapi-memberships-log.php';
 if ( is_admin() ) {
 	require_once 'admin/admin-handler.php';
 }
+
 /**
  * Load translate
  */
 add_action( 'init', 'fapi_membership_load_plugin_textdomain' );
 function fapi_membership_load_plugin_textdomain() {
+
 	$domain = 'fapi-membership';
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 	load_textdomain( $domain, plugin_dir_path( __FILE__ ) . 'languages/' . $domain . '-' . $locale . '.mo' );
-}
 
+}
 
 /**
  * Custom endpoint
  */
 add_action( 'init', 'fapi_membership_add_json_endpoint' );
 function fapi_membership_add_json_endpoint() {
-	add_rewrite_endpoint( 'fapi-membership', EP_ALL );
-}
 
+	add_rewrite_endpoint( 'fapi-membership', EP_ALL );
+
+}
 
 /**
  * Add template redirect
  */
 add_action( 'template_redirect', 'fapi_membership_json_template_redirect' );
 function fapi_membership_json_template_redirect() {
+
 	global $wp_query, $wpdb;
 
 	if ( ! isset( $wp_query->query_vars['fapi-membership'] ) ) {
@@ -316,6 +320,7 @@ function membership_login_redirect( $url, $request, $user ) {
 	}
 
 	return $url;
+
 }
 
 /**

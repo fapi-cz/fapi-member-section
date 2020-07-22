@@ -25,6 +25,7 @@ class Fapi_User {
 	 * @since     1.0.0
 	 */
 	public function __construct( $email ) {
+
 		$this->username = $email;
 
 	}
@@ -77,6 +78,7 @@ class Fapi_User {
 	public function send_registration_email( $user ) {
 
 		$registration_email = get_option( 'fapi_membership_registration_email' );
+
 		if ( $registration_email != '---' ) {
 
 			$to      = $user->user_email;

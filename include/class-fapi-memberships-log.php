@@ -72,6 +72,7 @@ class Fapi_Memberships_Log {
 		}
 
 		return self::$instance;
+
 	}
 
 	/**

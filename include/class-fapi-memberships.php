@@ -45,7 +45,9 @@ class Fapi_Memberships {
 	 * @return    Plugin slug variable.
 	 */
 	public function get_plugin_slug() {
+
 		return $this->plugin_slug;
+
 	}
 
 	/**
@@ -63,6 +65,7 @@ class Fapi_Memberships {
 		}
 
 		return self::$instance;
+
 	}
 
 	/**
@@ -71,8 +74,10 @@ class Fapi_Memberships {
 	public function get_memberships() {
 
 		$memberships = maybe_unserialize( get_option( 'fapi_memberships' ) );
+
 		if ( empty( $memberships ) ) {
-			return false; }
+			return false;
+		}
 
 		return $memberships;
 
@@ -84,6 +89,7 @@ class Fapi_Memberships {
 	public function render_memberships_table() {
 
 		$memberships = $this->get_memberships();
+
 		if ( $memberships != false ) {
 			// Render table
 			echo '<table class="table-bordered">';
@@ -113,6 +119,7 @@ class Fapi_Memberships {
 	 * Get field value
 	 */
 	private function get_field_value( $field, $key, $type = 'string' ) {
+
 		if ( ! empty( $field[ $key ] ) ) {
 			return $field[ $key ];
 		}
@@ -122,6 +129,7 @@ class Fapi_Memberships {
 		}
 
 		return false;
+
 	}
 
 	/**
