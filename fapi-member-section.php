@@ -94,7 +94,7 @@ function fapi_membership_json_template_redirect() {
 			exit();
 		}
 
-		if ( empty( $_GET['sectionid'] ) ) {
+		if ( empty( $_GET['section-id'] ) ) {
 			$data = array(
 				'context' => 'Chyba - není uvedeno id sekce',
 				'log'     => serialize( $_POST ),
@@ -103,13 +103,13 @@ function fapi_membership_json_template_redirect() {
 			exit();
 		}
 
-		$section_id = sanitize_text_field( $_GET['sectionid'] );
+		$section_id = sanitize_text_field( $_GET['section-id'] );
 		$invoice_id = sanitize_text_field( $_POST['id'] );
 
 		// Check is invoice paid
 		$credentials = new Fapi_Credentials();
-		$fapiClient  = ( new FapiClientFactory() )->createFapiClient( $credentials->get_username(), $credentials->get_password() );
-		$invoice     = $fapiClient->getInvoices()->find( (int) $invoice_id );
+		$fapi_client  = ( new FapiClientFactory() )->createFapiClient( $credentials->get_username(), $credentials->get_password() );
+		$invoice     = $fapi_client->getInvoices()->find( (int) $invoice_id );
 
 		if ( ! empty( $invoice ) ) {
 
