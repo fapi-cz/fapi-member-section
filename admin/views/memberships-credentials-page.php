@@ -7,7 +7,7 @@ use Fapi\FapiClient\Tools\SecurityChecker;
 $credentials = new Fapi_Credentials();
 // Save credentials if form is sent
 $credentials->save_credentials();
-$credentials->set_credentials();
+$credentials->init_credentials();
 ?>
 
 <div class="wrap">

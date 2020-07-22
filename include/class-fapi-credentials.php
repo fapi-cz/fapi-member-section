@@ -36,7 +36,7 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 */
 		public function __construct() {
 
-			$this->set_credentials();
+			$this->init_credentials();
 
 		}
 
@@ -45,7 +45,7 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 *
 		 * @since    1.0.0
 		 */
-		public function set_credentials() {
+		public function init_credentials() {
 
 			$option = maybe_unserialize( get_option( 'fapi_memberships_credentials' ) );
 
