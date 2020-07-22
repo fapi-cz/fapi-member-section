@@ -7,7 +7,6 @@
  * @copyright 2020 Musilda.com
  */
 use Fapi\FapiClient\FapiClientFactory;
-use Fapi\FapiClient\Tools\SecurityChecker;
 
 if ( ! class_exists( 'Fapi_Credentials' ) ) {
 
@@ -155,7 +154,13 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 			if ( ! empty( $_GET['check'] ) ) {
 
 				$fapiClient      = ( new FapiClientFactory() )->createFapiClient( $this->get_username(), $this->get_password() );
-				$checkConnection = $fapiClient->checkConnection();
+				$checkConnection = true;
+
+				try {
+					$fapiClient->checkConnection();
+				} catch (\Throwable $e) {
+					$checkConnection = false;
+				}
 
 				if ( empty( $checkConnection ) ) {
 
