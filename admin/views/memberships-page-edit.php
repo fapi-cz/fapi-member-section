@@ -1,9 +1,6 @@
 <?php
 declare(strict_types = 1);
 
-use Fapi\FapiClient\FapiClientFactory;
-use Fapi\FapiClient\Tools\SecurityChecker;
-
 $memberships = Fapi_Memberships::get_instance();
 if ( ! empty( $_POST['edit'] ) ) {
 	if ( ! empty( $_POST['membership_name'] ) ) {
