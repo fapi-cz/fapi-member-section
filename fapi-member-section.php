@@ -315,8 +315,10 @@ function membership_login_redirect( $url, $request, $user ) {
 	$data        = $memberships->get_memberships();
 	foreach ( $data as $id => $membership ) {
 		$user_item = get_user_meta( $user->ID, 'membership_' . $id, true );
+
 		if ( ! empty( $user_item ) && ! empty( $membership['login_redirect'] ) ) {
-			return $membership['login_redirect']; }
+			return $membership['login_redirect'];
+		}
 	}
 
 	return $url;
@@ -332,7 +334,7 @@ function memebership_load_plugin_textdomain() {
 	$domain = 'fapi-membership';
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
-		$load = load_textdomain( $domain, WP_LANG_DIR . '/fapi-membership-section/' . $domain . '-' . $locale . '.mo' );
+	$load = load_textdomain( $domain, WP_LANG_DIR . '/fapi-membership-section/' . $domain . '-' . $locale . '.mo' );
 
 	if ( $load === false ) {
 		load_textdomain( $domain, FMDIR . 'languages/' . $domain . '-' . $locale . '.mo' );
