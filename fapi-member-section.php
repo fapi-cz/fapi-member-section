@@ -304,7 +304,7 @@ add_action(
 /**
  * Login redirect
  */
-  add_filter( 'login_redirect', 'membership_login_redirect', 10, 3 );
+add_filter( 'login_redirect', 'membership_login_redirect', 10, 3 );
 function membership_login_redirect( $url, $request, $user ) {
 
 	$memberships = Fapi_Memberships::get_instance();
