@@ -35,7 +35,6 @@ class Fapi_Memberships {
 	 */
 	private function __construct() {
 
-	
 	}
 
 	/**
@@ -61,7 +60,7 @@ class Fapi_Memberships {
 
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -72,56 +71,57 @@ class Fapi_Memberships {
 	 */
 	public function get_memberships() {
 
-        $memberships = maybe_unserialize( get_option( 'fapi_memberships' ) );
-        if( empty( $memberships ) ){ return false; }
+		$memberships = maybe_unserialize( get_option( 'fapi_memberships' ) );
+		if ( empty( $memberships ) ) {
+			return false; }
 
 		return $memberships;
-		
 
-    }
-    
-    /**
+	}
+
+	/**
 	 * Get website plugins data
 	 */
 	public function render_memberships_table() {
 
-        $memberships = $this->get_memberships();
-        if( $memberships != false ){ 
-			//Render table
+		$memberships = $this->get_memberships();
+		if ( $memberships != false ) {
+			// Render table
 			echo '<table class="table-bordered">';
-			echo '<tr><th>'.__( 'Membership name', 'fapi-membership' ).'</th><th>'.__( 'Membership id', 'fapi-membership' ).'</th><th>'.__( 'Membership description', 'fapi-membership' ).'</th><th>'.__( 'Email', 'fapi-membership' ).'</th><th>'.__( 'Redirect page', 'fapi-membership' ).'</th><th>'.__( 'Login redirect page', 'fapi-membership' ).'</th><th>'.__( 'Remove', 'fapi-membership' ).'</th><th></th></tr>';
-			foreach( $memberships as $id => $membership ){
-				if( empty( $membership['name'] ) ){ continue; }
+			echo '<tr><th>' . __( 'Membership name', 'fapi-membership' ) . '</th><th>' . __( 'Membership id', 'fapi-membership' ) . '</th><th>' . __( 'Membership description', 'fapi-membership' ) . '</th><th>' . __( 'Email', 'fapi-membership' ) . '</th><th>' . __( 'Redirect page', 'fapi-membership' ) . '</th><th>' . __( 'Login redirect page', 'fapi-membership' ) . '</th><th>' . __( 'Remove', 'fapi-membership' ) . '</th><th></th></tr>';
+			foreach ( $memberships as $id => $membership ) {
+				if ( empty( $membership['name'] ) ) {
+					continue; }
 				echo '<tr>';
-					echo '<td>'.$this->get_field_value( $membership, 'name' ).'</td>';
-					echo '<td class="td_center">'.$id.'</td>';
-					echo '<td>'.$this->get_field_value( $membership, 'note' ).'</td>';
-					echo '<td>'.get_the_title( $this->get_field_value( $membership, 'email' ) ).'</td>';
-					echo '<td>'.$this->get_field_value( $membership, 'redirect' ).'</td>';
-					echo '<td>'.$this->get_field_value( $membership, 'login_redirect' ).'</td>';
-					echo '<td class="td_center"><a href="'.admin_url().'admin.php?page=fapi-memebership&delete='.$id.'" class="btn btn-danger">'.__( 'Remove', 'fapi-membership' ).'</a></td>';
-					echo '<td class="td_center"><a href="'.admin_url().'admin.php?page=fapi-memebership&edit='.$id.'" class="btn btn-success">'.__( 'Edit', 'fapi-membership' ).'</a></td>';
+					echo '<td>' . $this->get_field_value( $membership, 'name' ) . '</td>';
+					echo '<td class="td_center">' . $id . '</td>';
+					echo '<td>' . $this->get_field_value( $membership, 'note' ) . '</td>';
+					echo '<td>' . get_the_title( $this->get_field_value( $membership, 'email' ) ) . '</td>';
+					echo '<td>' . $this->get_field_value( $membership, 'redirect' ) . '</td>';
+					echo '<td>' . $this->get_field_value( $membership, 'login_redirect' ) . '</td>';
+					echo '<td class="td_center"><a href="' . admin_url() . 'admin.php?page=fapi-memebership&delete=' . $id . '" class="btn btn-danger">' . __( 'Remove', 'fapi-membership' ) . '</a></td>';
+					echo '<td class="td_center"><a href="' . admin_url() . 'admin.php?page=fapi-memebership&edit=' . $id . '" class="btn btn-success">' . __( 'Edit', 'fapi-membership' ) . '</a></td>';
 				echo '</tr>';
 			}
 			echo '</table>';
-        }else{
-            echo '<p>'.__( 'You dont have any memebership yet.', 'fapi-membership' ) .'</p>';
-        }
+		} else {
+			echo '<p>' . __( 'You dont have any memebership yet.', 'fapi-membership' ) . '</p>';
+		}
 
 	}
 
 	/**
 	 * Get field value
 	 */
-	private function get_field_value( $field, $key, $type = 'string') {
-		if( !empty( $field[$key] ) ){
-			return $field[$key];
-		}else{
-			if( $type == 'string' ){
+	private function get_field_value( $field, $key, $type = 'string' ) {
+		if ( ! empty( $field[ $key ] ) ) {
+			return $field[ $key ];
+		} else {
+			if ( $type == 'string' ) {
 				return '';
-			}else{
+			} else {
 				return false;
-			} 
+			}
 		}
 	}
 
@@ -129,36 +129,34 @@ class Fapi_Memberships {
 	 * Send section welcome email
 	 *
 	 * @since    1.0.0
-	 *
 	 */
 	public function send_section_welcome_email( $user, $section_id ) {
 
 		$sections = $this->get_memberships();
 
-		if( !empty( $sections[$section_id]['email'] ) ){
+		if ( ! empty( $sections[ $section_id ]['email'] ) ) {
 
-			$to = $user->user_email;
-        	$subject = get_the_title( $sections[$section_id]['email'] );
-			$body = apply_filters( 'the_content', get_post_field('post_content', $sections[$section_id]['email'] ) );
-			$headers = array('Content-Type: text/html; charset=UTF-8');
-                
+			$to      = $user->user_email;
+			$subject = get_the_title( $sections[ $section_id ]['email'] );
+			$body    = apply_filters( 'the_content', get_post_field( 'post_content', $sections[ $section_id ]['email'] ) );
+			$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
 			wp_mail( $to, $subject, $body, $headers );
-	
+
 		}
-		
+
 	}
 
 	/**
 	 * Assing section to user
 	 *
 	 * @since    1.0.0
-	 *
 	 */
 	public function assing_section_to_user( $user, $section_id ) {
 
-		update_user_meta( $user->ID, 'membership_'.$section_id, $section_id );
-		
+		update_user_meta( $user->ID, 'membership_' . $section_id, $section_id );
+
 	}
 
-}//End class
+}//end class
 

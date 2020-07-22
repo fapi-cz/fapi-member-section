@@ -28,14 +28,14 @@ class Fapi_Display_Sections {
 	private $sections = null;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @since     1.0
 	 */
 	public function __construct() {
 
-        $this->sections = maybe_unserialize( get_option( 'fapi_memberships' ) ); 
-	
+		$this->sections = maybe_unserialize( get_option( 'fapi_memberships' ) );
+
 	}
 
 	/**
@@ -47,9 +47,9 @@ class Fapi_Display_Sections {
 	 */
 	private function get_plugin_slug() {
 		return $this->plugin_slug;
-    }
-    
-    /**
+	}
+
+	/**
 	 * Return the plugin slug.
 	 *
 	 * @since    1.0
@@ -57,21 +57,8 @@ class Fapi_Display_Sections {
 	 * @return  array
 	 */
 	public function get_sections() {
-		return $this->sections; 
+		return $this->sections;
 	}
 
-	
-
-	
-    
-    
-
-	
-
-	
-
-	
-
-
-}//End class
+}//end class
 
