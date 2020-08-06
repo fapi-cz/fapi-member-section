@@ -1,18 +1,33 @@
 <?php
 /**
+ * Fapi
+ *
  * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
  * @link      http://musilda.com
  * @copyright 2020 Musilda.com
+ *
  */
+
 use Fapi\FapiClient\FapiClientFactory;
 
 if ( ! class_exists( 'Fapi_Credentials' ) ) {
 
+	/**
+	 * Fapi
+	 *
+	 * @package   Fapi membership
+	 * @author    Vladislav Musílek
+	 * @license   GPL-2.0+
+	 * @link      http://musilda.com
+	 * @copyright 2020 Musilda.com
+	 *
+	 */
 	class Fapi_Credentials {
 
 		/**
+		 * Username.
 		 *
 		 * @since    1.0.0
 		 *
@@ -21,6 +36,7 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		protected $username = null;
 
 		/**
+		 * Password.
 		 *
 		 * @since    1.0.0
 		 *
@@ -41,13 +57,13 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Set credentials
+		 * Set credentials.
 		 *
 		 * @since    1.0.0
 		 */
 		public function init_credentials() {
 
-			$option = maybe_unserialize( get_option( 'fapi_memberships_credentials' ) );
+			$option = get_option( 'fapi_memberships_credentials' );
 
 			if ( ! empty( $option['username'] ) ) {
 				$this->username = $option['username'];
@@ -60,7 +76,7 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Return username
+		 * Return username.
 		 *
 		 * @since    1.0.0
 		 *
@@ -73,7 +89,7 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Return password
+		 * Return password.
 		 *
 		 * @since    1.0.0
 		 *
@@ -86,11 +102,12 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Set username
+		 * Set username.
 		 *
 		 * @since    1.0.0
 		 *
-		 * @return    string
+		 * @return    void
+		 * @param string $username username.
 		 */
 		public function set_username( $username ) {
 
@@ -99,11 +116,12 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Set password
+		 * Set password.
 		 *
 		 * @since    1.0.0
 		 *
-		 * @return    string
+		 * @return    void
+		 * @param string $password password.
 		 */
 		public function set_password( $password ) {
 
@@ -112,81 +130,35 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		}
 
 		/**
-		 * Save credentials
+		 * Save credentials.
 		 *
 		 * @since    1.0.0
 		 *
-		 * @return    string
+		 * @return    void
 		 */
 		public function save_credentials() {
 
-			if ( ! empty( $_POST['credentials'] ) ) {
-				$option = array();
+			$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_credeintials_nonce'] ) );
+			if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-credeintials-nonce' ) ) {
 
-				if ( ! empty( $_POST['fapi_username'] ) ) {
-					$option['username'] = sanitize_text_field( $_POST['fapi_username'] );
-				}
+				if ( ! empty( $_POST['credentials'] ) ) {
+					$option = array();
 
-				if ( ! empty( $_POST['fapi_password'] ) ) {
-					$option['password'] = sanitize_text_field( $_POST['fapi_password'] );
-				}
+					if ( ! empty( $_POST['fapi_username'] ) ) {
+						$option['username'] = sanitize_text_field( wp_unslash( $_POST['fapi_username'] ) );
+					}
 
-				if ( ! empty( $option ) ) {
-					update_option( 'fapi_memberships_credentials', $option );
-				} else {
-					delete_option( 'fapi_memberships_credentials' );
-				}
-			}
+					if ( ! empty( $_POST['fapi_password'] ) ) {
+						$option['password'] = sanitize_text_field( wp_unslash( $_POST['fapi_password'] ) );
+					}
 
-		}
-
-		/**
-		 * Check connection
-		 *
-		 * @since    1.0.0
-		 *
-		 * @return    string
-		 */
-		public function check_connection() {
-
-			$html = '';
-
-			if ( ! empty( $_GET['check'] ) ) {
-
-				$fapiClient      = ( new FapiClientFactory() )->createFapiClient( $this->get_username(), $this->get_password() );
-				$checkConnection = true;
-
-				try {
-					$fapiClient->checkConnection();
-				} catch (\Throwable $e) {
-					$checkConnection = false;
-				}
-
-				if ( empty( $checkConnection ) ) {
-
-					$html             .= '<div class="t-col-12">';
-						$html         .= '<div class="toret-box box-info">';
-							$html     .= '<div class="box-body">';
-								$html .= '<p style="color:red;">' . esc_attr__( 'Connection failed. Check your credentials.', 'fapi-membership' ) . '</p>';
-							$html     .= '</div>';
-						$html         .= '</div>';
-					$html             .= '</div>';
-
-				} else {
-
-					$html             .= '<div class="t-col-12">';
-						$html         .= '<div class="toret-box box-info">';
-							$html     .= '<div class="box-body">';
-								$html .= '<p style="color:green;">' . esc_attr__( 'Connection test was successfull', 'fapi-membership' ) . '</p>';
-							$html     .= '</div>';
-						$html         .= '</div>';
-					$html             .= '</div>';
-
+					if ( ! empty( $option ) ) {
+						update_option( 'fapi_memberships_credentials', $option );
+					} else {
+						delete_option( 'fapi_memberships_credentials' );
+					}
 				}
 			}
-
-			return $html;
-
 		}
 
 	}//end class

@@ -1,17 +1,18 @@
 <?php
-
 /**
+ * Fapi
+ *
  * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
  * @link      http://musilda.com
  * @copyright 2020 Musilda.com
+ *
  */
-
 class Fapi_Memberships {
 
 	/**
-	 *
+	 * Plugin slug.
 	 * @since    1.0.0
 	 *
 	 * @var      string
@@ -60,7 +61,7 @@ class Fapi_Memberships {
 	public static function get_instance() {
 
 		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -72,8 +73,8 @@ class Fapi_Memberships {
 	 * Get website plugins data
 	 */
 	public function get_memberships() {
-
-		$memberships = maybe_unserialize( get_option( 'fapi_memberships' ) );
+		
+		$memberships = get_option( 'fapi_memberships' );
 
 		if ( empty( $memberships ) ) {
 			return false;
@@ -89,34 +90,38 @@ class Fapi_Memberships {
 	public function render_memberships_table() {
 
 		$memberships = $this->get_memberships();
+		
+		if ( false !== $memberships ) {
 
-		if ( $memberships != false ) {
-			// Render table
 			echo '<table class="table-bordered">';
-			echo '<tr><th>' . __( 'Membership name', 'fapi-membership' ) . '</th><th>' . __( 'Membership id', 'fapi-membership' ) . '</th><th>' . __( 'Membership description', 'fapi-membership' ) . '</th><th>' . __( 'Email', 'fapi-membership' ) . '</th><th>' . __( 'Redirect page', 'fapi-membership' ) . '</th><th>' . __( 'Login redirect page', 'fapi-membership' ) . '</th><th>' . __( 'Remove', 'fapi-membership' ) . '</th><th></th></tr>';
+			echo '<tr><th>' . esc_attr__( 'Membership name', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Membership id', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Membership description', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Email', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Redirect page', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Login redirect page', 'fapi-membership' ) . '</th><th>' . esc_attr__( 'Remove', 'fapi-membership' ) . '</th><th></th></tr>';
 			foreach ( $memberships as $id => $membership ) {
 				if ( empty( $membership['name'] ) ) {
 					continue; }
 				echo '<tr>';
-					echo '<td>' . $this->get_field_value( $membership, 'name' ) . '</td>';
-					echo '<td class="td_center">' . $id . '</td>';
-					echo '<td>' . $this->get_field_value( $membership, 'note' ) . '</td>';
-					echo '<td>' . get_the_title( $this->get_field_value( $membership, 'email' ) ) . '</td>';
-					echo '<td>' . $this->get_field_value( $membership, 'redirect' ) . '</td>';
-					echo '<td>' . $this->get_field_value( $membership, 'login_redirect' ) . '</td>';
-					echo '<td class="td_center"><a href="' . admin_url() . 'admin.php?page=fapi-memebership&delete=' . $id . '" class="btn btn-danger">' . __( 'Remove', 'fapi-membership' ) . '</a></td>';
-					echo '<td class="td_center"><a href="' . admin_url() . 'admin.php?page=fapi-memebership&edit=' . $id . '" class="btn btn-success">' . __( 'Edit', 'fapi-membership' ) . '</a></td>';
+					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'name' ) ) . '</td>';
+					echo '<td class="td_center">' . esc_attr( $id ) . '</td>';
+					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'note' ) ) . '</td>';
+					echo '<td>' . esc_attr( get_the_title( $this->get_field_value( $membership, 'email' ) ) ) . '</td>';
+					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'redirect' ) ) . '</td>';
+					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'login_redirect' ) ) . '</td>';
+					echo '<td class="td_center"><a href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-memebership&delete=' . esc_attr( $id ), 'nonce_delete', 'nonce_delete' ) ) . '" class="btn btn-danger">' . esc_attr__( 'Remove', 'fapi-membership' ) . '</a></td>';
+					echo '<td class="td_center"><a href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-memebership&edit=' . esc_attr( $id ), 'nonce_edit' ) ) . '" class="btn btn-success">' . esc_attr__( 'Edit', 'fapi-membership' ) . '</a></td>';
 				echo '</tr>';
 			}
 			echo '</table>';
 		} else {
-			echo '<p>' . __( 'You dont have any memebership yet.', 'fapi-membership' ) . '</p>';
+			echo '<p>' . esc_attr__( 'You dont have any memebership yet.', 'fapi-membership' ) . '</p>';
 		}
 
 	}
 
 	/**
 	 * Get field value
+	 *
+	 * @param string $field file name.
+	 * @param string $key file key.
+	 * @param string $type filed type.
 	 */
 	private function get_field_value( $field, $key, $type = 'string' ) {
 
@@ -124,7 +129,7 @@ class Fapi_Memberships {
 			return $field[ $key ];
 		}
 
-		if ( $type == 'string' ) {
+		if ( 'string' === $type ) {
 			return '';
 		}
 
@@ -136,6 +141,8 @@ class Fapi_Memberships {
 	 * Send section welcome email
 	 *
 	 * @since    1.0.0
+	 * @param object $user user object.
+	 * @param string $section_id section id.
 	 */
 	public function send_section_welcome_email( $user, $section_id ) {
 
@@ -158,6 +165,8 @@ class Fapi_Memberships {
 	 * Assing section to user
 	 *
 	 * @since    1.0.0
+	 * @param object $user user object.
+	 * @param string $section_id section id.
 	 */
 	public function assing_section_to_user( $user, $section_id ) {
 
@@ -166,4 +175,3 @@ class Fapi_Memberships {
 	}
 
 }//end class
-

@@ -1,13 +1,14 @@
 <?php
-
 /**
+ * Fapi
+ *
  * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
  * @link      http://musilda.com
  * @copyright 2020 Musilda.com
+ *
  */
-
 class Fapi_User {
 
 	/**
@@ -23,6 +24,7 @@ class Fapi_User {
 	 * and styles.
 	 *
 	 * @since     1.0.0
+	 * @param string $email email.
 	 */
 	public function __construct( $email ) {
 
@@ -74,12 +76,13 @@ class Fapi_User {
 	 * Send registration email
 	 *
 	 * @since    1.0.0
+	 * @param object $user user object.
 	 */
 	public function send_registration_email( $user ) {
 
 		$registration_email = get_option( 'fapi_membership_registration_email' );
 
-		if ( $registration_email != '---' ) {
+		if ( '---' !== $registration_email ) {
 
 			$to      = $user->user_email;
 			$subject = __( 'Thank you for registration', 'fapi-member-section' );
@@ -99,6 +102,7 @@ class Fapi_User {
 	 * @since    1.0.0
 	 *
 	 * @return    string
+	 * @param int $user_id user id.
 	 */
 	public function new_password_link( $user_id ) {
 
@@ -117,4 +121,3 @@ class Fapi_User {
 
 
 }//end class
-

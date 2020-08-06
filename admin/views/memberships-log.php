@@ -1,11 +1,22 @@
 <?php
+/**
+ * Fapi
+ *
+ * @package   Fapi membership
+ * @author    Vladislav Musílek
+ * @license   GPL-2.0+
+ * @link      http://musilda.com
+ * @copyright 2020 Musilda.com
+ *
+ */
 
 if ( isset( $_GET['delete'] ) ) {
-
-	$log = Fapi_Memberships_Log::get_instance();
-	$log->delete_logs();
-	wp_redirect( admin_url() . 'admin.php?page=fapi-membership-log' );
-
+	$nonce = sanitize_text_field( wp_unslash( $_GET['edit_nonce'] ) );
+	if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
+		$log = Fapi_Memberships_Log::get_instance();
+		$log->delete_logs();
+		wp_safe_redirect( admin_url() . 'admin.php?page=fapi-membership-log' );
+	}
 }
 
 ?>
@@ -18,9 +29,9 @@ if ( isset( $_GET['delete'] ) ) {
 	<div class="t-col-12">
 		<div class="toret-box box-info">
 			<div class="box-header">
-				<h3 class="box-title"><?php _e( 'Záznamy', 'fapi-membership' ); ?></h3>
+				<h3 class="box-title"><?php esc_attr_e( 'Záznamy', 'fapi-membership' ); ?></h3>
 			</div>
-			<p><a href="<?php echo admin_url(); ?>admin.php?page=fapi-membership-log&delete=log" class="btn btn-info" style="margin-left:10px;"><?php _e( 'Smazat log', 'fapi-membership' ); ?></a></p>
+			<p><a href="<?php echo esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-membership-log&delete=log', 'edit_nonce' ) ); ?>" class="btn btn-info" style="margin-left:10px;"><?php esc_attr_e( 'Smazat log', 'fapi-membership' ); ?></a></p>
 			<div class="box-body">
 				<?php
 

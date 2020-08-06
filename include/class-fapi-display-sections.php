@@ -1,17 +1,18 @@
 <?php
-
 /**
+ * Fapi
+ *
  * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
  * @link      http://musilda.com
  * @copyright 2020 Musilda.com
+ *
  */
-
 class Fapi_Display_Sections {
 
 	/**
-	 *
+	 * Plugin slug.
 	 * @since    1.0
 	 *
 	 * @var      string
@@ -28,13 +29,13 @@ class Fapi_Display_Sections {
 	private $sections = null;
 
 	/**
-	 *
+	 * Class constructor.
 	 *
 	 * @since     1.0
 	 */
 	public function __construct() {
 
-		$this->sections = maybe_unserialize( get_option( 'fapi_memberships' ) );
+		$this->sections = get_option( 'fapi_memberships' );
 
 	}
 

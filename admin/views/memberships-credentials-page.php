@@ -1,8 +1,18 @@
 <?php
+/**
+ * Fapi
+ *
+ * @package   Fapi membership
+ * @author    Vladislav Musílek
+ * @license   GPL-2.0+
+ * @link      http://musilda.com
+ * @copyright 2020 Musilda.com
+ *
+ */
+
 declare(strict_types = 1);
 
 $credentials = new Fapi_Credentials();
-// Save credentials if form is sent
 $credentials->save_credentials();
 $credentials->init_credentials();
 
@@ -29,18 +39,19 @@ $credentials->init_credentials();
 							<td><input type="text" name="fapi_username" style="width:100%" 
 							<?php
 							if ( ! empty( $credentials->get_username() ) ) {
-								echo 'value="' . $credentials->get_username() . '"'; }
+								echo 'value="' . esc_attr( $credentials->get_username() ) . '"'; }
 							?>
-							 /></td>
+							/></td>
 							<td><input type="text" name="fapi_password" style="width:100%" 
 							<?php
 							if ( ! empty( $credentials->get_password() ) ) {
-								echo 'value="' . $credentials->get_password() . '"'; }
+								echo 'value="' . esc_attr( $credentials->get_password() ) . '"'; }
 							?>
-							 /></td>
+							/></td>
 							<td class="td_center"><input class="btn btn-success" type="submit" name="credentials" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
 						</tr>
 					</table>
+					<?php wp_nonce_field( 'fapi-credeintials-nonce', 'fapi_credeintials_nonce' ); ?>
 				</form>                
 			</div>
 			<div class="clear"></div>

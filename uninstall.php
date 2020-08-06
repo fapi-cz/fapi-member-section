@@ -1,13 +1,15 @@
 <?php
 /**
- * @package   WooCommerce Ico Dic
+ * Fapi
+ *
+ * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
- * @link      http://toret.ct
- * @copyright 2015 Toret.cz
+ * @link      http://musilda.com
+ * @copyright 2020 Musilda.com
+ *
  */
 
-// If uninstall not called from WordPress, then exit
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }

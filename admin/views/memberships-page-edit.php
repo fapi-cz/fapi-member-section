@@ -1,24 +1,57 @@
 <?php
+/**
+ * Fapi
+ *
+ * @package   Fapi membership
+ * @author    Vladislav Musílek
+ * @license   GPL-2.0+
+ * @link      http://musilda.com
+ * @copyright 2020 Musilda.com
+ *
+ */
+
 declare(strict_types = 1);
 
 $memberships = Fapi_Memberships::get_instance();
 if ( ! empty( $_POST['edit'] ) ) {
-	if ( ! empty( $_POST['membership_name'] ) ) {
-		$data          = $memberships->get_memberships();
-		$membership_id = sanitize_text_field( $_POST['membership_id'] );
+	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_form'] ) );
+	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-admin-form' ) ) {
 
-		$data[ $membership_id ] = array(
-			'name'           => sanitize_text_field( $_POST['membership_name'] ),
-			'note'           => sanitize_text_field( $_POST['membership_note'] ),
-			'email'          => sanitize_text_field( $_POST['membership_email'] ),
-			'redirect'       => sanitize_text_field( $_POST['membership_redirect'] ),
-			'login_redirect' => sanitize_text_field( $_POST['membership_login_redirect'] ),
-		);
+		if ( ! empty( $_POST['membership_name'] ) ) {
+			$data = $memberships->get_memberships();
+			if ( ! empty( $_POST['membership_id'] ) ) {
+				$membership_id = sanitize_text_field( wp_unslash( $_POST['membership_id'] ) );
+			}
 
-		update_option( 'fapi_memberships', serialize( $data ) );
+			if ( ! empty( $_POST['membership_name'] ) ) {
+				$membership_name = sanitize_text_field( wp_unslash( $_POST['membership_name'] ) );
+			}
+			if ( ! empty( $_POST['membership_note'] ) ) {
+				$membership_note = sanitize_text_field( wp_unslash( $_POST['membership_note'] ) );
+			}
+			if ( ! empty( $_POST['membership_email'] ) ) {
+				$membership_email = sanitize_text_field( wp_unslash( $_POST['membership_email'] ) );
+			}
+			if ( ! empty( $_POST['membership_redirect'] ) ) {
+				$membership_redirect = sanitize_text_field( wp_unslash( $_POST['membership_redirect'] ) );
+			}
+			if ( ! empty( $_POST['membership_login_redirect'] ) ) {
+				$membership_login_redirect = sanitize_text_field( wp_unslash( $_POST['membership_login_redirect'] ) );
+			}
 
-		wp_redirect( admin_url( '?page=fapi-memebership' ) );
+			$data[ $membership_id ] = array(
+				'name'           => $membership_name,
+				'note'           => $membership_note,
+				'email'          => $membership_email,
+				'redirect'       => $membership_redirect,
+				'login_redirect' => $membership_login_redirect,
+			);
 
+			update_option( 'fapi_memberships', $data, true );
+
+			wp_safe_redirect( admin_url( '?page=fapi-memebership' ) );
+
+		}
 	}
 }
 
@@ -28,10 +61,11 @@ $args   = array(
 	'numberposts' => -1,
 );
 $emails = new WP_Query( $args );
-
-$membership_id = esc_attr( $_GET['edit'] );
-$data          = $memberships->get_memberships();
-$membership    = $data[ $membership_id ];
+if ( ! empty( sanitize_text_field( wp_unslash( $_GET['edit'] ) ) ) ) {
+	$membership_id = esc_attr( sanitize_text_field( wp_unslash( $_GET['edit'] ) ) );
+}
+$data       = $memberships->get_memberships();
+$membership = $data[ $membership_id ];
 
 ?>
 
@@ -52,7 +86,8 @@ $membership    = $data[ $membership_id ];
 						<td><input type="text" name="membership_name" style="width:100%" value="
 						<?php
 						if ( ! empty( $membership['name'] ) ) {
-							echo $membership['name']; }
+							echo esc_attr( $membership['name'] );
+						}
 						?>
 						" /></td>
 					</tr>
@@ -61,7 +96,8 @@ $membership    = $data[ $membership_id ];
 						<td><textarea name="membership_note">
 						<?php
 						if ( ! empty( $membership['note'] ) ) {
-							echo $membership['note']; }
+							echo esc_attr( $membership['note'] );
+						}
 						?>
 						</textarea></td>
 					</tr>
@@ -73,11 +109,11 @@ $membership    = $data[ $membership_id ];
 							<?php
 							if ( ! empty( $emails->posts ) ) {
 								foreach ( $emails->posts as $email ) {
-									if ( ! empty( $membership['email'] ) && $membership['email'] == $email->ID ) {
+									if ( ! empty( $membership['email'] ) && $membership['email'] === $email->ID ) {
 										$selected = 'selected="selected"';
 									} else {
 										$selected = ''; }
-									echo '<option value="' . $email->ID . '" ' . $selected . '>' . $email->post_title . '</option>';
+									echo '<option value="' . esc_attr( $email->ID ) . '" ' . esc_attr( $selected ) . '>' . esc_attr( $email->post_title ) . '</option>';
 								}
 							}
 							?>
@@ -89,7 +125,8 @@ $membership    = $data[ $membership_id ];
 						<td><input type="text" name="membership_redirect" style="width:100%" value="
 						<?php
 						if ( ! empty( $membership['redirect'] ) ) {
-							echo $membership['redirect']; }
+							echo esc_attr( $membership['redirect'] );
+						}
 						?>
 						" /></td>
 					</tr>
@@ -98,14 +135,15 @@ $membership    = $data[ $membership_id ];
 						<td><input type="text" name="membership_login_redirect" style="width:100%" value="
 						<?php
 						if ( ! empty( $membership['login_redirect'] ) ) {
-							echo $membership['login_redirect']; }
+							echo esc_attr( $membership['login_redirect'] );
+						}
 						?>
 						" /></td>
 					</tr>
 					<tr>
 						<th></th>
 						<td class="td_center"><input class="btn btn-success" type="submit" name="edit" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
-						<input type="hidden" name="membership_id" value="<?php echo $membership_id; ?>" />
+						<input type="hidden" name="membership_id" value="<?php echo esc_attr( $membership_id ); ?>" />
 					</tr>
 				</table>
 				</form>
@@ -116,7 +154,4 @@ $membership    = $data[ $membership_id ];
 
 	</div>
 	<div class="clear"></div>
-
-	
-
 </div>

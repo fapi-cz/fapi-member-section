@@ -1,13 +1,14 @@
 <?php
-
 /**
+ * Fapi
+ *
  * @package   Fapi membership
  * @author    Vladislav Musílek
  * @license   GPL-2.0+
  * @link      http://musilda.com
  * @copyright 2020 Musilda.com
+ *
  */
-
 class Fapi_Memberships_Log {
 
 
@@ -36,10 +37,10 @@ class Fapi_Memberships_Log {
 	 *
 	 * @var      string
 	 */
-	protected $plugin_slug = 'fapi-membership';
+	public $plugin_slug = 'fapi-membership';
 
 	/**
-	 * Limit
+	 * Limit.
 	 *
 	 * @since    1.2.4
 	 *
@@ -67,7 +68,7 @@ class Fapi_Memberships_Log {
 	public static function get_instance() {
 
 		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -76,7 +77,7 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Get logs for table
+	 * Get logs for table.
 	 *
 	 * @since 1.2.4
 	 */
@@ -84,23 +85,27 @@ class Fapi_Memberships_Log {
 
 		global $wpdb;
 
-		if ( isset( $_GET['offset'] ) && $_GET['offset'] > 1 ) {
+		$nonce = sanitize_text_field( wp_unslash( $_GET['log_nonce'] ) );
+		if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
 
-			$offset = esc_attr( $_GET['offset'] );
-			$start  = ( $offset * $this->limit ) - $this->limit;
+			if ( isset( $_GET['offset'] ) && $_GET['offset'] > 1 ) {
 
-			$logs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . $this->table_name . ' ORDER BY date DESC LIMIT ' . $this->limit . ' OFFSET ' . $start . '' );
+				$offset = sanitize_text_field( wp_unslash( $_GET['offset'] ) );
+				$start  = ( $offset * $this->limit ) - $this->limit;
 
-		} else {
+				$logs = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s ORDER BY date DESC LIMIT %s OFFSET %s', $wpdb->prefix . $this->table_name, $this->limit, $start ) );
 
-			$logs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . $this->table_name . ' ORDER BY date DESC LIMIT ' . $this->limit );
+			} else {
 
-		}
+				$logs = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s ORDER BY date DESC LIMIT %s', $wpdb->prefix . $this->table_name, $this->limit ) );
 
-		if ( ! empty( $logs ) ) {
+			}
 
-			return $logs;
+			if ( ! empty( $logs ) ) {
 
+				return $logs;
+
+			}
 		}
 
 		return false;
@@ -108,7 +113,7 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Render table
+	 * Render table.
 	 *
 	 * @since 1.2.4
 	 */
@@ -118,7 +123,7 @@ class Fapi_Memberships_Log {
 
 		if ( false === $logs ) {
 
-			$html = '<p>' . __( 'Nenalezeny žádné záznamy', $this->plugin_slug ) . '</p>';
+			$html = '<p>' . esc_attr__( 'Nenalezeny žádné záznamy', 'fapi-membership' ) . '</p>';
 
 		} else {
 
@@ -141,7 +146,7 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Render table head
+	 * Render table head.
 	 *
 	 * @since 1.2.4
 	 */
@@ -149,9 +154,9 @@ class Fapi_Memberships_Log {
 
 		$html = '
     		<tr>
-              <th>' . __( 'Datum', $this->plugin_slug ) . '</th>
-              <th>' . __( 'Kontext', $this->plugin_slug ) . '</th>
-              <th>' . __( 'DATA', $this->plugin_slug ) . '</th>
+              <th>' . esc_attr__( 'Datum', 'fapi-membership' ) . '</th>
+              <th>' . esc_attr__( 'Kontext', 'fapi-membership' ) . '</th>
+              <th>' . esc_attr__( 'DATA', 'fapi-membership' ) . '</th>
             </tr>
     	';
 
@@ -160,9 +165,10 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Render table line
+	 * Render table line.
 	 *
 	 * @since 1.2.4
+	 * @param object $log log object.
 	 */
 	public function render_table_line( $log ) {
 
@@ -179,9 +185,10 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Save log
+	 * Save log.
 	 *
 	 * @since 1.2.4
+	 * @param array $data log data.
 	 */
 	public function save_log( $data ) {
 
@@ -190,7 +197,7 @@ class Fapi_Memberships_Log {
 		} else {
 			$context = '---';
 		}
-		$date = date( 'Y-m-d H:i:s' );
+		$date = gmdate( 'Y-m-d H:i:s' );
 		$data = array(
 			'log'     => $data['log'],
 			'context' => $context,
@@ -206,7 +213,7 @@ class Fapi_Memberships_Log {
 	}
 
 	/**
-	 * Empty table
+	 * Empty table.
 	 *
 	 * @since 1.2.4
 	 */
@@ -214,12 +221,12 @@ class Fapi_Memberships_Log {
 
 		global $wpdb;
 
-		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . $this->table_name );
+		$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %s', $wpdb->prefix . $this->table_name ) );
 
 	}
 
 	/**
-	 * Pagination
+	 * Pagination.
 	 *
 	 * @since 1.2.4
 	 */
@@ -228,16 +235,19 @@ class Fapi_Memberships_Log {
 		global $wpdb;
 
 		if ( ! empty( $_GET['order_id'] ) ) {
-			$order_id = sanitize_text_field( $_GET['order_id'] );
+			$order_id = sanitize_text_field( wp_unslash( $_GET['order_id'] ) );
 			$logs     = $this->get_order_logs( $order_id );
 		} else {
-			$logs = $wpdb->get_results( 'SELECT ID FROM ' . $wpdb->prefix . $this->table_name . ' ORDER BY date DESC' );
+			$logs = $wpdb->get_results( $wpdb->prepare( 'SELECT ID FROM %s ORDER BY date DESC', $wpdb->prefix . $this->table_name ) );
 		}
 
 		$all   = count( $logs );
 		$pages = ceil( $all / $this->limit );
 		if ( ! empty( $_GET['offset'] ) ) {
-			$current = $_GET['offset'];
+			$nonce = sanitize_text_field( wp_unslash( $_GET['log_nonce'] ) );
+			if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
+				$current = sanitize_text_field( wp_unslash( $_GET['offset'] ) );
+			}
 		} else {
 			$current = 1;
 		}
@@ -245,15 +255,17 @@ class Fapi_Memberships_Log {
 		$html  = '';
 		$html .= '<div class="log-pagination">';
 
-		$query_string = $_SERVER['QUERY_STRING'];
+		if ( isset( $_SERVER['QUERY_STRING'] ) ) {
+			$query_string = sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) );
+		}
 
-		if ( $pages != 1 ) {
+		if ( 1 !== $pages ) {
 
 			for ( $i = 1; $i <= $pages; $i++ ) {
-				if ( $current == $i ) {
+				if ( $current === $i ) {
 					$html .= '<span class="btn btn-default">' . $i . '</span>';
 				} else {
-					$html .= '<a class="btn btn-primary" href="' . admin_url() . 'admin.php?' . $query_string . '&offset=' . $i . '">' . $i . '</a>';
+					$html .= '<a class="btn btn-primary" href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?' . $query_string . '&offset=' . $i, 'log_nonce' ) ) . '">' . $i . '</a>';
 				}
 			}
 		}
