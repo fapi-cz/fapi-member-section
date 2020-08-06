@@ -94,13 +94,13 @@ function fapi_membership_json_template_redirect() {
 	if ( 'create' === $wp_query->query_vars['fapi-membership'] ) {
 		/* V post id faktury Dotaz na Fapi zda je uhrazeno a  pokud ano, z objektu faktury získat email zákazníka a vytvořit uživatele. */
 		if ( empty( $_POST['id'] ) ) {
-			
+	
 			$data = array(
 				'context' => esc_attr__( 'Chyba - není uvedeno id faktury', 'fapi-member-section' ),
 				'log'     => sanitize_text_field( wp_unslash( $_POST ) ),
 			);
 			fapi_memebership_save_log( $data );
-			http_response_code(400);
+			http_response_code( 400 );
 			echo esc_attr__( 'Chyba - není uvedeno id faktury', 'fapi-member-section' );
 			exit();
 		}
@@ -112,7 +112,7 @@ function fapi_membership_json_template_redirect() {
 				'log'     => sanitize_text_field( wp_unslash( $_POST ) ),
 			);
 			fapi_memebership_save_log( $data );
-			http_response_code(400);
+			http_response_code( 400 );
 			echo esc_attr__( 'Chyba - není uvedeno id sekce', 'fapi-member-section' );
 			exit();
 		}
@@ -140,7 +140,7 @@ function fapi_membership_json_template_redirect() {
 				$memberships->assing_section_to_user( $_user, $section_id );
 				$memberships->send_section_welcome_email( $_user, $section_id );
 
-				http_response_code(200);
+				http_response_code( 200 );
 				echo esc_attr__( 'Zaplacení přístupu do sekce s id', 'fapi-member-section' ) . ' ' . $section_id;
 				exit();
 
@@ -151,7 +151,7 @@ function fapi_membership_json_template_redirect() {
 				'log'     => sanitize_text_field( wp_unslash( $_POST['id'] ) ),
 			);
 			fapi_memebership_save_log( $data );
-			http_response_code(400);
+			http_response_code( 400 );
 			echo esc_attr__( 'Faktura není uhrazena ', 'fapi-member-section' );
 			exit();
 		}
@@ -161,7 +161,7 @@ function fapi_membership_json_template_redirect() {
 			'log'     => sanitize_text_field( wp_unslash( $_POST['id'] ) ),
 		);
 		fapi_memebership_save_log( $data );
-		http_response_code(400);
+		http_response_code( 400 );
 		echo esc_attr__( 'Chyba získání faktury', 'fapi-member-section' );
 		exit();
 	}
