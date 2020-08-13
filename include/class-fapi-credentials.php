@@ -10,8 +10,6 @@
  *
  */
 
-use Fapi\FapiClient\FapiClientFactory;
-
 if ( ! class_exists( 'Fapi_Credentials' ) ) {
 
 	/**

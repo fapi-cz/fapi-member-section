@@ -33,6 +33,9 @@ if ( ! empty( $_POST['save'] ) ) {
 			if ( ! empty( $_POST['membership_email'] ) ) {
 				$membership_email = sanitize_text_field( wp_unslash( $_POST['membership_email'] ) );
 			}
+			if ( ! empty( $_POST['membership_note'] ) ) {
+				$membership_note = sanitize_text_field( wp_unslash( $_POST['membership_note'] ) );
+			}
 			if ( ! empty( $_POST['membership_redirect'] ) ) {
 				$membership_redirect = sanitize_text_field( wp_unslash( $_POST['membership_redirect'] ) );
 			}
@@ -41,11 +44,11 @@ if ( ! empty( $_POST['save'] ) ) {
 			}
 
 			$data[ $key ] = array(
-				'name'           => $membership_name,
-				'note'           => $membership_note,
-				'email'          => $membership_email,
-				'redirect'       => $membership_redirect,
-				'login_redirect' => $membership_login_redirect,
+				'name'           => $membership_name ?? null,
+				'note'           => $membership_note ?? null,
+				'email'          => $membership_email ?? null,
+				'redirect'       => $membership_redirect ?? null,
+				'login_redirect' => $membership_login_redirect ?? null,
 			);
 
 			update_option( 'fapi_memberships', $data );

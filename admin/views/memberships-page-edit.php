@@ -40,11 +40,11 @@ if ( ! empty( $_POST['edit'] ) ) {
 			}
 
 			$data[ $membership_id ] = array(
-				'name'           => $membership_name,
-				'note'           => $membership_note,
-				'email'          => $membership_email,
-				'redirect'       => $membership_redirect,
-				'login_redirect' => $membership_login_redirect,
+				'name'           => $membership_name ?? null,
+				'note'           => $membership_note ?? null,
+				'email'          => $membership_email ?? null,
+				'redirect'       => $membership_redirect ?? null,
+				'login_redirect' => $membership_login_redirect ?? null,
 			);
 
 			update_option( 'fapi_memberships', $data, true );

@@ -84,7 +84,7 @@ function fapi_membership_json_template_redirect() {
 		require_once 'include/class-fapi-memberships.php';
 		$memberships = Fapi_Memberships::get_instance();
 		$data        = $memberships->get_memberships();
-		if ( false !== $date ) {
+		if ( false !== $data ) {
 			echo wp_json_encode( $data, true );
 		}
 		exit();
