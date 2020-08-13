@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+$rootDir = __DIR__ . '/../';
+
+\passthru(
+	\escapeshellarg($rootDir . 'wpcs/vendor/bin/phpcs')
+	. ' '
+    . \escapeshellarg('--standard=WordPress')
+    . ' '
+	. '--encoding=utf-8 --tab-width=4 --colors -sp'
+	. ' '
+	. $rootDir . 'fapi-member-section.php'
+	. ' '
+	. $rootDir . 'index.php'
+	. ' '
+	. $rootDir . 'uninstall.php'
+	. ' '
+	. $rootDir . 'include'
+	. ' '
+	. $rootDir . 'admin'
+);
