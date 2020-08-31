@@ -13,7 +13,7 @@
 declare(strict_types = 1);
 
 $memberships = Fapi_Memberships::get_instance();
-if ( ! empty( $_POST['save'] ) ) {
+if ( ! empty( $_POST['save'] ) && ! empty( $_POST['fapi_admin_form'] ) ) {
 
 	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_form'] ) );
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-admin-form' ) ) {
@@ -60,7 +60,7 @@ if ( ! empty( $_GET['delete'] ) ) {
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'nonce_delete' ) ) {
 
 		$data = $memberships->get_memberships();
-		
+
 		if ( ! empty( $data[ $_GET['delete'] ] ) ) {
 			unset( $data[ $_GET['delete'] ] );
 			if ( ! empty( $data ) ) {

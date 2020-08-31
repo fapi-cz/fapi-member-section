@@ -10,7 +10,7 @@
  *
  */
 
-if ( ! empty( $_POST['registration-email-submit'] ) ) {
+if ( ! empty( $_POST['registration-email-submit'] ) && !empty( $_POST['fapi_admin_form'] ) ) {
 
 	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_form'] ) );
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-admin-form' ) ) {
@@ -40,6 +40,11 @@ $registration_email = (int)get_option( 'fapi_membership_registration_email' );
 				<h3 class="box-title"><?php esc_attr_e( 'Registration email', 'fapi-membership' ); ?></h3>
 			</div>
 			<div class="box-body">
+				<?php
+				if ( ! empty( $_POST['updated'] ) ) {
+					echo '<p>' . esc_attr__( 'Form was updated!', 'fapi-membership' ) . '</p>';
+				}
+				?>
 				<form method="post" action="<?php echo esc_url( admin_url() ) . 'admin.php?page=fapi-membership-registration'; ?>">
 					<table class="table-bordered">
 						<tr>
@@ -65,6 +70,7 @@ $registration_email = (int)get_option( 'fapi_membership_registration_email' );
 						</tr>
 					</table>
 					<?php wp_nonce_field( 'fapi-admin-form', 'fapi_admin_form' ); ?>
+					<input type="hidden" name="updated" value="yes" />
 				</form>                
 			</div>
 			<div class="clear"></div>

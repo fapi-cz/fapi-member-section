@@ -138,6 +138,10 @@ if ( ! class_exists( 'Fapi_Credentials' ) ) {
 		 */
 		public function save_credentials() {
 
+			if ( empty( $_POST['fapi_credeintials_nonce'] ) ) {
+				return;
+			}
+
 			$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_credeintials_nonce'] ) );
 			if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-credeintials-nonce' ) ) {
 
