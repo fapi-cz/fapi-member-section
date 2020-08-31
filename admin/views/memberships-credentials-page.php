@@ -14,7 +14,6 @@ declare(strict_types = 1);
 
 $credentials = new Fapi_Credentials();
 $credentials->save_credentials();
-$credentials->init_credentials();
 
 ?>
 
@@ -28,6 +27,11 @@ $credentials->init_credentials();
 				<h3 class="box-title"><?php esc_attr_e( 'Credentials', 'fapi-membership' ); ?></h3>
 			</div>
 			<div class="box-body">
+				<?php
+				if ( ! empty( $_POST['updated'] ) ) {
+					echo '<p>' . esc_attr__( 'Form was updated!', 'fapi-membership' ) . '</p>';
+				}
+				?>
 				<form method="post" action="">
 					<table class="table-bordered">
 						<tr>
@@ -52,6 +56,7 @@ $credentials->init_credentials();
 						</tr>
 					</table>
 					<?php wp_nonce_field( 'fapi-credeintials-nonce', 'fapi_credeintials_nonce' ); ?>
+					<input type="hidden" name="updated" value="yes" />
 				</form>                
 			</div>
 			<div class="clear"></div>
