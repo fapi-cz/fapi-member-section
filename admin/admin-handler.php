@@ -64,9 +64,11 @@ function fapimembership_add_plugin_admin_menu() {
  * Membership admin page
  */
 function fapi_memebership_admin_page() {
-	if ( ! empty( $_GET['edit'] ) ) {
+
+	if ( ! empty( $_GET['edit'] ) && ! empty( $_GET['nonce_edit'] ) ) {
+
 		$nonce = sanitize_text_field( wp_unslash( $_GET['nonce_edit'] ) );
-		if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
+		if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'nonce_edit' ) ) {
 			include 'views/memberships-page-edit.php';
 		}
 	} else {
@@ -155,7 +157,12 @@ add_action( 'save_post', 'fapi_membership_meta_box_setup' );
 function fapi_membership_meta_box_setup( $post_id ) {
 
 	if ( empty( $post_id ) ) {
-		return; }
+		return;
+	}
+	if ( empty( $_POST['fapi_admin_metabox'] ) ) {
+		return;
+	}
+
 	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_metabox'] ) );
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-admin-metabox' ) ) {
 		$memberships = Fapi_Memberships::get_instance();
@@ -225,6 +232,10 @@ function save_membership_userprofile_fields( $user_id ) {
 
 	if ( ! current_user_can( 'edit_user', $user_id ) ) {
 		return false;
+	}
+
+	if ( empty( $_POST['fapi_admin_user'] ) ) {
+		return;
 	}
 
 	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_user'] ) );

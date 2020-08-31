@@ -85,27 +85,23 @@ class Fapi_Memberships_Log {
 
 		global $wpdb;
 
-		$nonce = sanitize_text_field( wp_unslash( $_GET['log_nonce'] ) );
-		if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
+		if ( isset( $_GET['offset'] ) && $_GET['offset'] > 1 ) {
 
-			if ( isset( $_GET['offset'] ) && $_GET['offset'] > 1 ) {
+			$offset = sanitize_text_field( wp_unslash( $_GET['offset'] ) );
+			$start  = ( $offset * $this->limit ) - $this->limit;
 
-				$offset = sanitize_text_field( wp_unslash( $_GET['offset'] ) );
-				$start  = ( $offset * $this->limit ) - $this->limit;
+			$logs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . $this->table_name . ' ORDER BY date DESC LIMIT %' . $this->limit . ' OFFSET ' . $start );
 
-				$logs = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s ORDER BY date DESC LIMIT %s OFFSET %s', $wpdb->prefix . $this->table_name, $this->limit, $start ) );
+		} else {
 
-			} else {
+			$logs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'fapi_memebership_log ORDER BY date DESC LIMIT ' . $this->limit );
 
-				$logs = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s ORDER BY date DESC LIMIT %s', $wpdb->prefix . $this->table_name, $this->limit ) );
+		}
 
-			}
+		if ( ! empty( $logs ) ) {
 
-			if ( ! empty( $logs ) ) {
+			return $logs;
 
-				return $logs;
-
-			}
 		}
 
 		return false;

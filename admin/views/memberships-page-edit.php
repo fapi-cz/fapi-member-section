@@ -13,7 +13,8 @@
 declare(strict_types = 1);
 
 $memberships = Fapi_Memberships::get_instance();
-if ( ! empty( $_POST['edit'] ) ) {
+
+if ( ! empty( $_POST['edit'] ) && !empty( $_POST['fapi_admin_form'] ) ) {
 	$nonce = sanitize_text_field( wp_unslash( $_POST['fapi_admin_form'] ) );
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce, 'fapi-admin-form' ) ) {
 
@@ -61,6 +62,7 @@ $args   = array(
 	'numberposts' => -1,
 );
 $emails = new WP_Query( $args );
+
 if ( ! empty( sanitize_text_field( wp_unslash( $_GET['edit'] ) ) ) ) {
 	$membership_id = esc_attr( sanitize_text_field( wp_unslash( $_GET['edit'] ) ) );
 }
@@ -79,34 +81,34 @@ $membership = $data[ $membership_id ];
 				<h3 class="box-title"><?php esc_attr_e( 'Edit memberships sections', 'fapi-membership' ); ?></h3>
 			</div>
 			<div class="box-body">
+				<?php
+				if ( ! empty( $_POST['updated'] ) ) {
+					echo '<p>' . esc_attr__( 'Form was updated!', 'fapi-membership' ) . '</p>';
+				}
+				?>
 				<form method="post" action="">
 				<table class="table-bordered">
 					<tr>
 						<th><?php esc_attr_e( 'Name', 'fapi-membership' ); ?></th>
-						<td><input type="text" name="membership_name" style="width:100%" value="
-						<?php
+						<td><input type="text" name="membership_name" style="width:100%" value="<?php
 						if ( ! empty( $membership['name'] ) ) {
 							echo esc_attr( $membership['name'] );
 						}
-						?>
-						" /></td>
+						?>" /></td>
 					</tr>
 					<tr>
 						<th><?php esc_attr_e( 'Note', 'fapi-membership' ); ?></th>
-						<td><textarea name="membership_note">
-						<?php
+						<td><textarea name="membership_note"><?php
 						if ( ! empty( $membership['note'] ) ) {
 							echo esc_attr( $membership['note'] );
 						}
-						?>
-						</textarea></td>
+						?></textarea></td>
 					</tr>
 					<tr>
 						<th><?php esc_attr_e( 'Email', 'fapi-membership' ); ?></th>
 						<td>
 							<select name="membership_email">
-								<option value="---">---</option>
-							<?php
+								<option value="---">---</option><?php
 							if ( ! empty( $emails->posts ) ) {
 								foreach ( $emails->posts as $email ) {
 									if ( ! empty( $membership['email'] ) && $membership['email'] === $email->ID ) {
@@ -116,34 +118,30 @@ $membership = $data[ $membership_id ];
 									echo '<option value="' . esc_attr( $email->ID ) . '" ' . esc_attr( $selected ) . '>' . esc_attr( $email->post_title ) . '</option>';
 								}
 							}
-							?>
-							</select>
+							?></select>
 						</td>
 					</tr>
 					<tr>
 						<th><?php esc_attr_e( 'Redirect page', 'fapi-membership' ); ?></th>
-						<td><input type="text" name="membership_redirect" style="width:100%" value="
-						<?php
+						<td><input type="text" name="membership_redirect" style="width:100%" value="<?php
 						if ( ! empty( $membership['redirect'] ) ) {
 							echo esc_attr( $membership['redirect'] );
 						}
-						?>
-						" /></td>
+						?>" /></td>
 					</tr>
 					<tr>
 						<th><?php esc_attr_e( 'Login redirect page', 'fapi-membership' ); ?></th>
-						<td><input type="text" name="membership_login_redirect" style="width:100%" value="
-						<?php
+						<td><input type="text" name="membership_login_redirect" style="width:100%" value="<?php
 						if ( ! empty( $membership['login_redirect'] ) ) {
 							echo esc_attr( $membership['login_redirect'] );
 						}
-						?>
-						" /></td>
+						?>" /></td>
 					</tr>
 					<tr>
 						<th></th>
 						<td class="td_center"><input class="btn btn-success" type="submit" name="edit" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
 						<input type="hidden" name="membership_id" value="<?php echo esc_attr( $membership_id ); ?>" />
+						<input type="hidden" name="updated" value="yes" />
 					</tr>
 				</table>
 				</form>

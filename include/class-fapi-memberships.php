@@ -106,7 +106,7 @@ class Fapi_Memberships {
 					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'redirect' ) ) . '</td>';
 					echo '<td>' . esc_attr( $this->get_field_value( $membership, 'login_redirect' ) ) . '</td>';
 					echo '<td class="td_center"><a href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-memebership&delete=' . esc_attr( $id ), 'nonce_delete', 'nonce_delete' ) ) . '" class="btn btn-danger">' . esc_attr__( 'Remove', 'fapi-membership' ) . '</a></td>';
-					echo '<td class="td_center"><a href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-memebership&edit=' . esc_attr( $id ), 'nonce_edit' ) ) . '" class="btn btn-success">' . esc_attr__( 'Edit', 'fapi-membership' ) . '</a></td>';
+					echo '<td class="td_center"><a href="' . esc_url( wp_nonce_url( admin_url() . 'admin.php?page=fapi-memebership&edit=' . esc_attr( $id ), 'nonce_edit', 'nonce_edit' ) ) . '" class="btn btn-success">' . esc_attr__( 'Edit', 'fapi-membership' ) . '</a></td>';
 				echo '</tr>';
 			}
 			echo '</table>';

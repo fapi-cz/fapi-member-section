@@ -10,7 +10,7 @@
  *
  */
 
-if ( isset( $_GET['delete'] ) ) {
+if ( isset( $_GET['delete'] ) && ! empty( $_GET['edit_nonce'] ) ) {
 	$nonce = sanitize_text_field( wp_unslash( $_GET['edit_nonce'] ) );
 	if ( isset( $nonce ) && wp_verify_nonce( $nonce ) ) {
 		$log = Fapi_Memberships_Log::get_instance();
