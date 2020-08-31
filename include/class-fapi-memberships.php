@@ -75,7 +75,7 @@ class Fapi_Memberships {
 	public function get_memberships() {
 
 		$memberships = get_option( 'fapi_memberships' );
-		
+
 		if ( empty( $memberships ) ) {
 			return false;
 		}
@@ -90,6 +90,7 @@ class Fapi_Memberships {
 	public function render_memberships_table() {
 
 		$memberships = $this->get_memberships();
+
 		if ( false !== $memberships ) {
 
 			echo '<table class="table-bordered">';
