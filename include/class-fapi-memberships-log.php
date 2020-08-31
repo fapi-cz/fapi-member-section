@@ -116,7 +116,6 @@ class Fapi_Memberships_Log {
 	public function render_table() {
 
 		$logs = $this->get_logs();
-		var_dump( $logs );
 
 		if ( false === $logs ) {
 
