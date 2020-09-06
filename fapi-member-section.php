@@ -299,13 +299,15 @@ add_action(
 
 		foreach ( $data as $id => $membership ) {
 			$item = get_post_meta( $post_id, 'membership_' . $id, true );
-			if ( ! empty( $item ) && $item === $id ) {
+			
+			if ( ! empty( $item ) && (int)$item === $id ) {
 
 				if ( empty( $membership['redirect'] ) ) {
 					$redirect = get_home_url();
 				} else {
 					$redirect = $membership['redirect'];
 				}
+				
 
 				if ( ! is_user_logged_in() ) {
 					wp_safe_redirect( $redirect );

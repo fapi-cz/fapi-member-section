@@ -111,7 +111,7 @@ $membership = $data[ $membership_id ];
 								<option value="---">---</option><?php
 							if ( ! empty( $emails->posts ) ) {
 								foreach ( $emails->posts as $email ) {
-									if ( ! empty( $membership['email'] ) && $membership['email'] === $email->ID ) {
+									if ( ! empty( $membership['email'] ) && (int)$membership['email'] === $email->ID ) {
 										$selected = 'selected="selected"';
 									} else {
 										$selected = ''; }
@@ -142,6 +142,7 @@ $membership = $data[ $membership_id ];
 						<td class="td_center"><input class="btn btn-success" type="submit" name="edit" value="<?php esc_attr_e( 'Save', 'fapi-membership' ); ?>" /></td>
 						<input type="hidden" name="membership_id" value="<?php echo esc_attr( $membership_id ); ?>" />
 						<input type="hidden" name="updated" value="yes" />
+						<?php wp_nonce_field( 'fapi-admin-form', 'fapi_admin_form' ); ?>
 					</tr>
 				</table>
 				</form>
